@@ -15,7 +15,7 @@ class AlienInvasion:
                 (self.settings.screen_width, self.settings.screen_height))
         
         """
-        # running the game fullscreen
+        # running the screen fullscreen
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.sreen_height = self.screen.get_rect().height
@@ -52,6 +52,8 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_b:
+            self._bigger()
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -64,6 +66,13 @@ class AlienInvasion:
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
         pygame.display.flip()
+
+    def _bigger(self):
+        """switch to a bigger display"""
+        self.screen = pygame.display.set_mode((1350, 700))
+        self.settings.screen_width = self.screen.get_rect().width
+        self.settings.sreen_height = self.screen.get_rect().height
+        self.ship = Ship(self)
 
 if __name__ == "__main__":
     # make a game instance and run the game
