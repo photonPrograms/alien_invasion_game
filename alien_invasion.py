@@ -101,6 +101,11 @@ class AlienInvasion:
             self._bigger()
         elif event.key == pygame.K_p:
             self._start_game()
+        elif event.key == pygame.K_d:
+            self.save_high_score()
+            with open("description.txt") as f:
+                print(f.readline())
+            sys.exit()
 
     def _check_keyup_events(self, event):
         """respond to lifting finger from key"""
