@@ -57,6 +57,7 @@ class AlienInvasion:
         """respond to keyboard and mouse events"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.save_high_score()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
@@ -72,6 +73,7 @@ class AlienInvasion:
             self.stats.reset_stats()
             self.stats.game_active = True
             self.sb.prep_score()
+            self.sb.prep_level()
             self.aliens.empty()
             self.bullets.empty()
             self._create_fleet()
@@ -92,6 +94,7 @@ class AlienInvasion:
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
         elif event.key == pygame.K_q:
+            self.save_high_score()
             sys.exit()
         elif event.key == pygame.K_b:
             self._bigger()
@@ -146,6 +149,7 @@ class AlienInvasion:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
+            self.sb.check_high_score()
         
         # no aliens left in the fleet
         if not self.aliens:
@@ -153,6 +157,7 @@ class AlienInvasion:
             self.bullets.empty()
             self._create_fleet()
             self.stats.level += 1
+            self.sb.prep_level()
             self.settings.increase_speed()
 
     def _create_fleet(self):        
@@ -233,10 +238,11 @@ class AlienInvasion:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.sreen_height = self.screen.get_rect().height
         self.ship = Ship(self)
+        self.sb = Scoreboard(self)
 
     def _ship_hit(self):
         """respond to the ship being hit by an alien"""
-        if self.stats.ships_left > 0:
+        if self.stats.ships_left > 1:   # allow n ships, not n backup ships
             # decrement the ships_left
             self.stats.ships_left -= 1
 
@@ -262,6 +268,11 @@ class AlienInvasion:
             if alien.rect.bottom >= screen_rect.bottom:
                 self._ship_hit()
                 break
+
+    def save_high_score(self):
+        """save high score, if made, in the game"""
+        with open("high.data", "w") as f:
+            f.write(str(self.sb.stats.high_score))
 
 if __name__ == "__main__":
     # make a game instance and run the game
