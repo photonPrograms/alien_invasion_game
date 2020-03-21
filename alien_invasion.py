@@ -14,6 +14,7 @@ class AlienInvasion:
 
     def __init__(self):
         """initialize the game and create game resources"""
+        pygame.mixer.pre_init(44100, 16, 2, 4096)
         pygame.init()
         self.settings = Settings()
 
@@ -40,6 +41,10 @@ class AlienInvasion:
 
         # make the play button
         self.play_button = Button(self, "Play")
+
+        pygame.mixer.music.load("music/starwarstheme.mp3")
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1)
 
     def run_game(self):
         """start the main loop for the game"""
