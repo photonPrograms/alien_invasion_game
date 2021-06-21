@@ -1,6 +1,5 @@
 # alien_invasion_game
-Learning pygames by builiding the classic alien invasion game
-Part of the Python Crash Course 2e Exercises
+Builiding the classic alien invasion game using pygames
 
 alien_invasion.py: the backbone of the game calling all other classes and running the game
 ship.py, button.py, alien.py, scoreboard.py, bullet.py: control respective game elements
